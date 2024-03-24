@@ -1,0 +1,80 @@
+#include <iostream>
+#include <stdexcept> // Dla std::out_of_range
+
+template<typename T>
+class ArrayList {
+private:
+    T* data; // Wskaźnik na tablicę przechowującą elementy
+    size_t capacity; // Maksymalna pojemność tablicy
+    size_t size; // Aktualna liczba elementów w tablicy
+
+    void resize() {
+        capacity *= 2; // Podwajamy pojemność
+        T* newData = new T[capacity]; // Tworzymy nową tablicę o podwojonej pojemności
+        for (size_t i = 0; i < size; ++i) {
+            newData[i] = data[i]; // Kopiujemy elementy do nowej tablicy
+        }
+        delete[] data; // Usuwamy starą tablicę
+        data = newData; // Przypisujemy wskaźnik do nowej tablicy
+    }
+
+public:
+    ArrayList() : capacity(1), size(0) { // Konstruktor
+        data = new T[capacity]; // Początkowo alokujemy tablicę z jednym miejscem
+    }
+
+    ~ArrayList() { // Destruktor
+        delete[] data; // Zwalniamy zarezerwowaną pamięć
+    }
+
+    void add(T value) {
+        if (size == capacity) {
+            resize(); // Zwiększamy pojemność tablicy, jeśli zabraknie miejsca
+        }
+        data[size++] = value; // Dodajemy element na końcu tablicy
+    }
+
+    void remove(size_t index) {
+        if (index >= size) {
+            throw std::out_of_range("Indeks poza zakresem");
+        }
+        for (size_t i = index; i < size - 1; ++i) {
+            data[i] = data[i + 1]; // Przesuwamy elementy
+        }
+        size--;
+    }
+
+    T get(size_t index) const {
+        if (index >= size) {
+            throw std::out_of_range("Indeks poza zakresem");
+        }
+        return data[index]; // Zwracamy element o danym indeksie
+    }
+
+    size_t getSize() const {
+        return size; // Zwracamy rozmiar tablicy
+    }
+};
+
+int main() {
+    ArrayList<int> list;
+    list.add(10);
+    list.add(20);
+    list.add(30);
+
+    std::cout << "Elementy w tablicy: ";
+    for (size_t i = 0; i < list.getSize(); ++i) {
+        std::cout << list.get(i) << " ";
+    }
+    std::cout << std::endl;
+
+    list.remove(1); // Usuwamy element o indeksie 1 (wartość 20)
+
+    std::cout << "Elementy po usunięciu: ";
+    for (size_t i = 0; i < list.getSize(); ++i) {
+        std::cout << list.get(i) << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
