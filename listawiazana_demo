@@ -1,0 +1,157 @@
+#include <iostream>
+#include <windows.h>
+#include <cstdlib>
+
+using namespace std;
+
+struct Node {
+    int value;
+    Node* next;
+
+    Node(int value) : value(value), next(nullptr) {}
+};
+
+class Lista_wiazana {
+private:
+    Node* head;
+public:
+    Lista_wiazana() : head(nullptr) {}
+    ~Lista_wiazana() { 
+        while (head != nullptr) {
+            usun_poczatek();
+        }
+    }
+    void add(int value) {
+        Node* newNode = new Node(value);
+        newNode->next = head;
+        head = newNode;
+    }
+    void dodaj_poczatek(int value) {
+        Node* newNode = new Node(value);
+        newNode->next = head;
+        head = newNode;
+    }
+    void usun_poczatek() {
+        if (head != nullptr) {
+            Node* usun = head;
+            head = head->next;
+            delete usun;
+        }
+    }
+    void dodaj_koniec(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            head = newNode;
+        }
+        else {
+            Node* wezel = head;
+            while (wezel->next != nullptr) {
+                wezel = wezel->next;
+            }
+            wezel->next = newNode;
+        }
+    }
+    void usun_koniec() {
+        Node* wezel = head;
+        while (wezel->next->next != nullptr) {
+            wezel = wezel->next;
+        }
+        delete wezel->next;
+        wezel->next = nullptr;
+    }
+    void dodaj_srodek(int value) {
+        int pozycja;
+        Node* newNode = new Node(value);
+        Node* wezel = head;
+        cout << "podaj pozycje elementu: ";
+        cin >> pozycja;
+        for (int i = 0; i < (pozycja-2); i++) {
+            wezel = wezel->next;
+        }
+        newNode->next = wezel->next;
+        wezel->next = newNode;
+    }
+    void usun_srodek() {
+        int pozycja;
+        Node* wezel = head;
+        cout << "podaj pozycje elementu do usuniecia: ";
+        cin >> pozycja;
+        if (pozycja < 1) {
+            cout << "bledna pozycja!" << endl;
+            return;
+        }
+        else if (head == nullptr) {
+            cout << "lista jest pusta" << endl;
+            return;
+        }
+        else if (pozycja == 1) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+            return;
+        }
+        else if (wezel->next == nullptr) {
+            cout << "pozycja poza zakresem" << endl;
+            return;
+        }
+
+        for (int i = 0; i < (pozycja-2); i++) {
+            wezel = wezel->next;
+        }
+        Node* temp = wezel->next;
+        wezel->next = temp->next;
+        delete temp;
+    }
+    void szukaj() {
+        int szukana, x=1;
+        cout << "Podaj liczbe ktorej szukasz: ";
+        cin >> szukana;
+        Node* wezel = head;
+        while (head != nullptr) {
+            if (wezel->value == szukana) {
+                cout << "szukana znajduje sie na " << x << " pozycji";
+                return;
+            }
+            wezel = wezel->next;
+            x++;
+        }
+        cout << "niestety lista nie zawiera takiej liczby";
+    }
+
+    void show() {
+        Node* wezel = head;
+        while (wezel != nullptr) {
+            cout << wezel->value << endl;
+            wezel = wezel->next;
+        }
+        cout << "---------------------"<<endl;
+    }
+    
+};
+
+int main()
+{
+    Lista_wiazana list;
+    int liczba;
+    srand(time(NULL));
+    for (int i = 1; i <= 10; i++) {
+        liczba = rand() % 10 + 1;
+        list.add(liczba);
+    }
+    list.show();
+    list.dodaj_poczatek(23);
+    list.show();
+    list.usun_poczatek();
+    list.show();
+    list.dodaj_koniec(69);
+    list.show();
+    list.usun_koniec();
+    list.show();
+    list.dodaj_srodek(45);
+    list.show();
+    list.usun_srodek();
+    list.show();
+    list.szukaj();
+
+    return 0;
+}
