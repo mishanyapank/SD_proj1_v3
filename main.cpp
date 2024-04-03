@@ -1,30 +1,31 @@
+// Ten kod implementuje interfejs do pracy ze strukturami danych.
 #include "Nagłówek.h"
 
 using namespace std;
 
+// Funkcja do czyszczenia ekranu terminala/konsoli.
 void wyczysc() {
 #ifdef _WIN32
-    system("cls");
+    system("cls");    // Dla Windows.
 #else
-    system("clear");
+    system("clear");    // Dla Unix/Linux/MacOS.
 #endif
 }
-
-    
-
 
 int main()
 {
     int wybor, opcja;
     char pula;
+    // Inicjalizacja struktur danych.
     Tablica tab;
     Lista_wiazana list;
     Lista_tail tail;
+    // Inicjalizacja generatora liczb losowych.
     srand(time(NULL));
     cout << "WITAJ! TU PROGRAM BADAJACY ZALEZNOSCI CZASOWE ROZNYCH STRUKTUR DANYCH" << endl;
     cout << "CZY WYGENEROWAC NOWA PULE DANYCH (T/N) (DANE ZOSTANA ZAPISANE I BEDA DOSTEPNE W KAZDEJ ZE STRUKTUR): ";
     cin >> pula;
-    if ((pula == 'T') || (pula == 't')) {
+    if ((pula == 'T') || (pula == 't')) {     // Generowanie danych, jeśli użytkownik wyraził taką chęć
         tab.generowanie_danych();
     }
     wyczysc();
@@ -38,11 +39,13 @@ int main()
         cin >> opcja;
         wyczysc();
         switch (opcja) {
-        case 1:
-            tab.odczyt_danych();
+        case 1:    // Operacje dla tablicy dynamicznej.
+            tab.odczyt_danych();    // Odczytuje wcześniej wygenerowane dane.
             do {
+                 // Menu wyboru operacji dla tablicy.
                 cout << "ARRAYLIST" << endl;
                 cout << "WYBIERZ OPERACJE" << endl;
+                 // Lista dostępnych operacji.
                 cout << "1. DODAWANIE NA POCZATKU TABLICY" << endl;
                 cout << "2. USUWANIE NA POCZATKU TABLICY" << endl;
                 cout << "3. DODAWANIE NA KONCU TABLICY" << endl;
@@ -54,28 +57,39 @@ int main()
                 cout << "WYBOR: ";
                 cin >> wybor;
                 wyczysc();
+                  // Wykonanie wybranej operacji.
                 switch (wybor) {
                 case 1:
-                    tab.dodawanie_poczatek(89); break;
+                    tab.dodawanie_poczatek(89);    // Przykładowe dodanie wartości na początku
+                    break;
                 case 2:
-                    tab.usuwanie_poczatek(); break;
+                    tab.usuwanie_poczatek();
+                    break;
                 case 3:
-                    tab.dodawanie_koniec(24); break;
+                    tab.dodawanie_koniec(24);
+                    break;
                 case 4:
-                    tab.usuwanie_koniec(); break;
+                    tab.usuwanie_koniec(); 
+                    break;
                 case 5:
-                    tab.dodawanie_srodek(); break;
+                    tab.dodawanie_srodek(); 
+                    break;
                 case 6:
-                    tab.usuwanie_srodek(); break;
+                    tab.usuwanie_srodek();
+                    break;
                 case 7:
-                    tab.wyszukiwanie(); break;
+                    tab.wyszukiwanie(); 
+                    break;
                 }
                 
-            } while (wybor != 8); break;
+            } while (wybor != 8);    // Powrót do menu głównego.
+            break;
+        // Analogicznie dla listy wiązanej i listy z tail.
         case 2:
-            list.add();
-            list.reverse();
+            list.add();     // Dodaje elementy do listy wiązanej.
+            list.reverse();    // Odwraca kolejność elementów w liście.
             do {
+                // Menu i operacje dla listy wiązanej.
                 cout << "LISTA WIAZANA HEAD" << endl;
                 cout << "WYBIERZ OPERACJE" << endl;
                 cout << "1. DODAWANIE NA POCZATKU LISTY" << endl;
@@ -108,8 +122,9 @@ int main()
               
             } while (wybor != 8); break;
         case 3:
-            tail.add();
+            tail.add();    // Dodaje elementy do listy z tail.
             do {
+                // Menu i operacje dla listy z tail.
                 cout << "LISTA WIAZANA HEAD I TAIL" << endl;
                 cout << "WYBIERZ OPERACJE" << endl;
                 cout << "1. DODAWANIE NA POCZATKU LISTY" << endl;
@@ -143,7 +158,7 @@ int main()
             } while (wybor != 8);  break;
 
         }
-    } while (opcja != 4);
+    } while (opcja != 4); // Pętla kontynuuje, dopóki użytkownik nie wybierze opcji zakończenia.
     
     
     return 0;
