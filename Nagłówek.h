@@ -1,3 +1,8 @@
+/*   Definicja trzech struktur danych w języku C++: 
+/    tablica dynamiczna, lista wiązana oraz 
+/    lista wiązana z dodatkowym wskaźnikiem na ostatni element (tail). 
+*/
+
 #ifndef NAGŁÓWEK_H
 #define NAGŁÓWEK_H
 #include<iostream>
@@ -11,14 +16,14 @@
 
 using namespace std;
 
-
+// Definiowanie tablicy dynamicznej
 class Tablica {
 private:
     int* array;
     size_t capacity;
     size_t size;
 
-    void podwojenie();
+    void podwojenie(); 
 public:
     Tablica();
     ~Tablica() {
@@ -37,13 +42,15 @@ public:
     void show();
     void test();
 };
+// Definiowanie Node dla listy wiązanej
 struct Node {
-    int value;
-    Node* next;
+    int value; //wartość
+    Node* next; //wskażnik do następnego elementu listy
 
     Node(int value) : value(value), next(nullptr) {}
 };
 
+// Lista wiązana z head
 class Lista_wiazana {
 private:
     Node* head;
@@ -61,6 +68,7 @@ public:
     void szukaj();
     void show();
 };
+// Lista wiązana z head i tail
 class Lista_tail {
 private:
     Node* head;
